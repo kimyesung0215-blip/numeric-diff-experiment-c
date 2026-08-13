@@ -1,0 +1,6 @@
+numeric_diff_experiment
+numeric_diff_experiment.exe
+numeric_diff_data.csv
+numeric_diff_summary.csv
+*.o
+*.obj
