@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Numeric Diff Experiment</title>
+  <style>
+    body{margin:0;background:#f6f7f8;color:#17211f;font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+    header{background:#102522;color:white;border-bottom:4px solid #946200}
+    .wrap{width:min(1080px,calc(100% - 32px));margin:auto}
+    header .wrap{min-height:116px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    h1,h2,p{margin-top:0}h1{margin-bottom:0;font-size:clamp(2rem,4vw,3rem)}h2{font-size:1.15rem}
+    .eyebrow{margin-bottom:8px;color:#b9d5cf;font-size:.82rem;font-weight:700;text-transform:uppercase}
+    main{margin-top:28px;margin-bottom:48px}.panel{background:white;border:1px solid #d7ddda;border-radius:8px;box-shadow:0 12px 32px #17211f14}
+    .intro{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;padding:24px}.intro p,.note p,.hint{color:#63706c;margin-bottom:0}
+    .actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px}
+    button,.source{min-height:42px;border-radius:7px;border:1px solid transparent;padding:0 15px;font-size:.95rem;font-weight:700}
+    button{cursor:pointer}.source{display:inline-flex;align-items:center;color:white;text-decoration:none;border-color:#ffffff55}
+    .primary{background:#0f766e;color:white}.primary:hover{background:#0b4f4a}.secondary{background:white;color:#17211f;border-color:#d7ddda}.secondary:disabled{background:#eef1f0;color:#9aa3a0;cursor:not-allowed}
+    .status{display:flex;justify-content:space-between;gap:16px;margin:16px 0;padding:13px 16px;border:1px solid #c9d6d2;border-left:5px solid #0f766e;border-radius:6px;background:#eef8f5;color:#173f3a;font-weight:700}
+    .note{padding:20px 24px;margin-bottom:16px}.head{display:flex;align-items:end;justify-content:space-between;gap:16px;padding:20px 24px;border-bottom:1px solid #d7ddda}.table{overflow-x:auto}
+    table{width:100%;min-width:760px;border-collapse:collapse}th,td{padding:12px 14px;border-bottom:1px solid #d7ddda;text-align:left;white-space:nowrap}th{background:#f0f3f2;color:#33403d;font-size:.8rem;text-transform:uppercase}td{font-family:Consolas,"Courier New",monospace;font-size:.92rem}.empty{text-align:center;color:#63706c;font-family:Arial,Helvetica,sans-serif;height:96px;vertical-align:middle}
+    @media(max-width:760px){header .wrap,.intro,.head,.status{display:block}.source,.actions,#rows{margin-top:14px}.actions{display:grid;grid-template-columns:1fr}button{width:100%}}
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><div><p class="eyebrow">Numerical Differentiation Lab</p><h1>Numeric Diff Experiment</h1></div><a class="source" href="numeric_diff_experiment.c">C Source</a></div></header>
+  <main class="wrap">
+    <section class="intro panel"><div><h2>브라우저에서 바로 실행</h2><p>전진차분과 중심차분의 오차 변화를 계산하고 CSV로 저장할 수 있습니다.</p></div><div class="actions"><button id="run" class="primary">실험 실행</button><button id="data" class="secondary" disabled>원자료 CSV</button><button id="summary" class="secondary" disabled>요약 CSV</button></div></section>
+    <section class="status" aria-live="polite"><span id="status">아직 실행하지 않았습니다.</span><span id="rows"></span></section>
+    <section class="note panel"><h2>계산 기준</h2><p>웹 버전은 JavaScript 64비트 부동소수점 계산을 사용합니다. float 비교에는 Math.fround를 적용하고, long double은 long_double_js_approx로 표시합니다.</p></section>
+    <section class="panel"><div class="head"><h2>최소 오차 요약</h2><p id="hint" class="hint">실행 후 표가 표시됩니다.</p></div><div class="table"><table><thead><tr><th>Experiment</th><th>Type</th><th>Function</th><th>Method</th><th>h at min error</th><th>Min absolute error</th></tr></thead><tbody id="body"><tr><td colspan="6" class="empty">실험 실행 버튼을 누르세요.</td></tr></tbody></table></div></section>
+  </main>
+  <script>
+    const funcs={x2:["x^2",x=>x*x,x=>2*x],sin:["sin(x)",Math.sin,Math.cos],exp:["exp(x)",Math.exp,Math.exp],log:["log(x)",Math.log,x=>1/x]},state={data:[],summary:[]},$=id=>document.getElementById(id);
+    $("run").onclick=()=>{ $("status").textContent="실험을 계산하는 중입니다."; $("rows").textContent=""; $("run").disabled=true; setTimeout(()=>{const r=runAll();state.data=r.data;state.summary=r.summary;render(r.summary);$("data").disabled=false;$("summary").disabled=false;$("run").disabled=false;$("status").textContent="실험 완료";$("rows").textContent=`${r.data.length} data rows, ${r.summary.length} summary rows`;},20); };
+    $("data").onclick=()=>download("numeric_diff_data.csv",csv(dataHeaders(),state.data));$("summary").onclick=()=>download("numeric_diff_summary.csv",csv(summaryHeaders(),state.summary));
+    function runAll(){const data=[],summary=[];runType(data,summary,"A","double",funcs.sin,1,true,false);runType(data,summary,"B","float",funcs.sin,1,true,false);runType(data,summary,"B","double",funcs.sin,1,true,false);runType(data,summary,"B","long_double_js_approx",funcs.sin,1,true,false);runType(data,summary,"C","double",funcs.sin,1,true,true);runType(data,summary,"D","double",funcs.x2,1,true,false);runType(data,summary,"D","double",funcs.sin,1,true,false);runType(data,summary,"D","double",funcs.exp,1,true,false);runType(data,summary,"D","double",funcs.log,1,true,false);runType(data,summary,"D","double",funcs.x2,100,true,false);runType(data,summary,"D","double",funcs.x2,1000000,true,false);return{data,summary};}
+    function runType(data,summary,ex,type,fn,xv,forward,central){let x=cast(type,xv),h=cast(type,.1),bf=null,bc=null,p=type==="float"?9:type==="double"?17:21;for(let step=0;step<400;step++){const xp=cast(type,x+h),xm=cast(type,x-h),truth=cast(type,fn[2](x)),eqp=Number(xp===x),eqm=Number(xm===x);if(forward){const num=cast(type,(f(type,fn,x+h)-f(type,fn,x))/h),err=Math.abs(num-truth);data.push(drow(ex,type,fn[0],"forward",x,h,num,truth,err,eqp,"NA",p));bf=best(bf,h,err);}if(central){const num=cast(type,(f(type,fn,x+h)-f(type,fn,x-h))/cast(type,2*h)),err=Math.abs(num-truth);data.push(drow(ex,type,fn[0],"central",x,h,num,truth,err,eqp,eqm,p));bc=best(bc,h,err);}const next=cast(type,h/10);if(next===0||next===h)break;h=next;}if(forward&&bf)summary.push(srow(ex,type,fn[0],"forward",bf.h,bf.err,p));if(central&&bc)summary.push(srow(ex,type,fn[0],"central",bc.h,bc.err,p));}
+    function cast(type,v){return type==="float"?Math.fround(v):Number(v)}function f(type,fn,x){return cast(type,fn[1](cast(type,x)))}function best(cur,h,err){return!cur||err<cur.err?{h,err}:cur}function fmt(v,p){return Number.isFinite(v)?v.toExponential(p):String(v)}
+    function drow(ex,type,fn,method,x,h,num,truth,err,eqp,eqm,p){return{experiment:ex,type,function:fn,method,x:fmt(x,p),h:fmt(h,p),numerical_derivative:fmt(num,p),true_derivative:fmt(truth,p),absolute_error:fmt(err,p),x_plus_h_equal_x:String(eqp),x_minus_h_equal_x:String(eqm)}}function srow(ex,type,fn,method,h,err,p){return{experiment:ex,type,function:fn,method,h_at_min_error:fmt(h,p),min_absolute_error:fmt(err,p)}}
+    function render(rows){$("hint").textContent="각 조건별 최소 오차와 해당 h입니다.";$("body").innerHTML=rows.map(r=>`<tr>${summaryHeaders().map(k=>`<td>${esc(r[k])}</td>`).join("")}</tr>`).join("")}
+    function dataHeaders(){return["experiment","type","function","method","x","h","numerical_derivative","true_derivative","absolute_error","x_plus_h_equal_x","x_minus_h_equal_x"]}function summaryHeaders(){return["experiment","type","function","method","h_at_min_error","min_absolute_error"]}
+    function csv(headers,rows){return[headers.join(","),...rows.map(r=>headers.map(k=>cell(r[k])).join(","))].join("\n")+"\n"}function cell(v){const t=String(v);return/[",\n]/.test(t)?`"${t.replaceAll('"','""')}"`:t}
+    function download(name,text){const url=URL.createObjectURL(new Blob([text],{type:"text/csv;charset=utf-8"})),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+  </script>
+</body>
+</html>
