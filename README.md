@@ -4,6 +4,14 @@
 
 GitHub 저장소 첫 화면에는 README가 보이는 것이 정상입니다. 실제 프로그램은 아래 방법 중 하나로 컴파일해서 실행합니다.
 
+## 웹에서 바로 실행
+
+GitHub Pages 주소에서 브라우저 UI로 바로 실행할 수 있습니다.
+
+<https://kimyesung0215-blip.github.io/numeric-diff-experiment-c/>
+
+웹 UI에서는 **실험 실행** 버튼을 누른 뒤 요약 표를 확인하고 CSV 파일을 내려받을 수 있습니다.
+
 ## Windows에서 실행
 
 PowerShell:
