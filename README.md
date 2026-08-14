@@ -1,16 +1,21 @@
 # Numeric Diff Experiment
 
-수치 미분의 전진차분/중심차분 오차가 간격 `h`, 실수 자료형, 함수 종류, `x`의 크기에 따라 어떻게 달라지는지 관찰하기 위한 C 프로그램입니다.
-
-GitHub 저장소 첫 화면에는 README가 보이는 것이 정상입니다. 실제 프로그램은 아래 방법 중 하나로 컴파일해서 실행합니다.
+전진차분과 중심차분으로 수치 미분을 수행하면서 `h`, 실수 자료형, 함수 종류, `x`의 크기에 따라 오차가 어떻게 변하는지 관찰하는 실험입니다.
 
 ## 웹에서 바로 실행
 
-GitHub Pages 주소에서 브라우저 UI로 바로 실행할 수 있습니다.
+아래 GitHub Pages 주소에서 브라우저 UI로 바로 실험할 수 있습니다.
 
 <https://kimyesung0215-blip.github.io/numeric-diff-experiment-c/>
 
-웹 UI에서는 **실험 실행** 버튼을 누른 뒤 요약 표를 확인하고 CSV 파일을 내려받을 수 있습니다.
+웹 UI에서 **실험 실행** 버튼을 누르면 다음을 확인할 수 있습니다.
+
+- **결과 요약**: 조건별 최소 오차와 그때의 `h`
+- **결과 분석**: `h`-오차 곡선, 자료형별 비교, 함수와 `x` 크기별 비교 그래프
+- **연구 질문별 해석**: `h`를 줄일수록 항상 정확해지는지, 오차가 다시 증가하는 이유, 자료형/차분법/함수별 차이
+- **CSV 다운로드**: 원자료와 요약 자료
+
+브라우저의 JavaScript는 기본적으로 64비트 부동소수점 계산을 사용하므로, 웹 UI의 `long double`은 C 실행 파일의 실제 `long double` 정밀도와 완전히 같지는 않습니다. 정밀한 자료형 비교가 필요하면 아래 C 프로그램 실행 결과를 함께 확인하세요.
 
 ## Windows에서 실행
 
@@ -59,7 +64,8 @@ numeric_diff_experiment.exe
 
 ## GitHub에서 실행
 
-GitHub 웹에서 실행하려면 저장소의 **Actions** 탭에서 **Build and run numeric diff experiment** workflow를 실행합니다.
+GitHub 저장소의 **Actions** 탭에서 **Build and run numeric diff experiment** workflow를 실행할 수 있습니다.
+
 실행이 끝나면 `numeric-diff-results` artifact에서 생성된 CSV 파일을 내려받을 수 있습니다.
 
 ## Outputs
