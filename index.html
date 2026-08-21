@@ -18,11 +18,12 @@
     button{cursor:pointer}.source{display:inline-flex;align-items:center;color:white;text-decoration:none;border-color:#ffffff55}
     .primary{background:#0f766e;color:white}.primary:hover{background:#0b4f4a}.secondary,.tab{background:white;color:#17211f;border-color:#d7ddda}.secondary:disabled{background:#eef1f0;color:#9aa3a0;cursor:not-allowed}.tab[aria-selected=true]{background:#102522;color:white}
     .status{display:flex;justify-content:space-between;gap:16px;margin:16px 0;padding:13px 16px;border:1px solid #c9d6d2;border-left:5px solid #0f766e;border-radius:6px;background:#eef8f5;color:#173f3a;font-weight:700}
-    .note{padding:20px 24px;margin-bottom:16px}.head{display:flex;align-items:end;justify-content:space-between;gap:16px;padding:20px 24px;border-bottom:1px solid #d7ddda}.tab-panel{display:none}.tab-panel.active{display:block}
+    .note{padding:20px 24px;margin-bottom:16px}.head{display:flex;align-items:end;justify-content:space-between;gap:16px;padding:20px 24px;border-bottom:1px solid #d7ddda}.head-tools{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap}.tab-panel{display:none}.tab-panel.active{display:block}
     .table{overflow-x:auto}table{width:100%;min-width:860px;border-collapse:collapse}th,td{padding:12px 14px;border-bottom:1px solid #d7ddda;text-align:left;white-space:nowrap}th{background:#f0f3f2;color:#33403d;font-size:.8rem;text-transform:uppercase}td{font-family:Consolas,"Courier New",monospace;font-size:.9rem}.empty{text-align:center;color:#63706c;font-family:Arial,Helvetica,sans-serif;height:96px;vertical-align:middle}.table.compact table{min-width:980px}.table.compact th,.table.compact td{padding:9px 10px}
     .analysis{padding:22px 24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.chart{min-height:320px;border:1px solid #d7ddda;border-radius:8px;padding:14px}.chart.wide{grid-column:1/-1}.chart svg{width:100%;height:auto;display:block}.gridline{stroke:#e1e6e4;stroke-width:1}.series{fill:none;stroke-width:2.2}.dot{stroke:white;stroke-width:1.5}.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;color:#33403d;font-size:.88rem}.swatch{display:inline-block;width:12px;height:12px;margin-right:5px;vertical-align:-1px;border-radius:2px}
-    .analysis-block{margin-top:22px;padding-top:18px;border-top:1px solid #d7ddda}.analysis-block p{color:#394744}.answers{display:grid;grid-template-columns:1fr;gap:12px;margin-top:18px}.answer{border-left:4px solid #0f766e;background:#f7faf9;padding:14px 16px;border-radius:6px}.answer p{margin-bottom:0;color:#394744}
-    @media(max-width:820px){header .wrap,.intro,.head,.status{display:block}.source,.actions,#rows{margin-top:14px}.actions,.tabs{display:grid;grid-template-columns:1fr}button{width:100%}.grid{grid-template-columns:1fr}table{min-width:760px}.table.compact table{min-width:900px}}
+    .analysis-block{margin-top:22px;padding-top:18px;border-top:1px solid #d7ddda}.analysis-block p{color:#394744}.answers{display:grid;grid-template-columns:1fr;gap:12px;margin-top:18px}.answers[hidden]{display:none}.answer{border-left:4px solid #0f766e;background:#f7faf9;padding:14px 16px;border-radius:6px}.answer p{margin-bottom:0;color:#394744}
+    .switch{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#33403d;white-space:nowrap}.switch input{position:absolute;opacity:0}.track{position:relative;width:42px;height:24px;border-radius:999px;background:#cbd5d1;transition:background .18s ease}.track::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:white;box-shadow:0 1px 4px #0002;transition:transform .18s ease}.switch input:checked+.track{background:#0f766e}.switch input:checked+.track::after{transform:translateX(18px)}.switch input:focus-visible+.track{outline:3px solid #9ad7cf;outline-offset:2px}
+    @media(max-width:820px){header .wrap,.intro,.head,.status{display:block}.head-tools{justify-content:flex-start;margin-top:12px}.source,.actions,#rows{margin-top:14px}.actions,.tabs{display:grid;grid-template-columns:1fr}button{width:100%}.grid{grid-template-columns:1fr}table{min-width:760px}.table.compact table{min-width:900px}}
   </style>
 </head>
 <body>
@@ -34,7 +35,7 @@
     <nav class="tabs" aria-label="결과 보기"><button class="tab" data-tab="summaryTab" aria-selected="true">결과 요약</button><button class="tab" data-tab="analysisTab" aria-selected="false">결과 분석</button></nav>
     <section id="summaryTab" class="tab-panel active panel"><div class="head"><h2>최소 오차 요약</h2><p id="hint" class="hint">10회 계산 또는 총 계산 후 표가 표시됩니다.</p></div><div class="table"><table><thead><tr><th>Experiment</th><th>Type</th><th>Function</th><th>x</th><th>Method</th><th>h at min error</th><th>Min absolute error</th></tr></thead><tbody id="body"><tr><td colspan="7" class="empty">10회 계산 또는 총 계산 버튼을 누르세요.</td></tr></tbody></table></div></section>
     <section id="analysisTab" class="tab-panel panel">
-      <div class="head"><h2>결과 분석</h2><p id="analysisHint" class="hint">실행 후 그래프, 비교 표, 해석이 표시됩니다.</p></div>
+      <div class="head"><h2>결과 분석</h2><div class="head-tools"><p id="analysisHint" class="hint">실행 후 그래프, 비교 표, 해석이 표시됩니다.</p><label class="switch"><input type="checkbox" id="interpretationToggle"><span class="track" aria-hidden="true"></span><span>그래프 해석</span></label></div></div>
       <div class="analysis">
         <div class="grid">
           <div class="chart wide"><h3>전진차분과 중심차분 h-error 곡선: double, sin(x), x=1</h3><div id="methodChart"></div></div>
@@ -62,32 +63,316 @@
     const state={data:[],summary:[],steps:[],cursor:0};
     const $=id=>document.getElementById(id);
     const colors=["#0f766e","#946200","#4f46e5","#be123c","#6d28d9","#2563eb"];
-    document.querySelectorAll(".tab").forEach(button=>{button.onclick=()=>{document.querySelectorAll(".tab").forEach(tab=>tab.setAttribute("aria-selected",String(tab===button)));document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("active",panel.id===button.dataset.tab));};});
-    $("step").onclick=()=>computeBatch(10);$("run").onclick=()=>computeBatch(Infinity);$("reset").onclick=()=>resetState();$("data").onclick=()=>download("numeric_diff_data.csv",csv(dataHeaders(),state.data));$("summary").onclick=()=>download("numeric_diff_summary.csv",csv(summaryHeaders(),state.summary));resetState();
-    function resetState(){state.data=[];state.summary=[];state.steps=buildSteps();state.cursor=0;renderEmpty();updateControls();$("status").textContent="초기화 완료. 10회 계산으로 그래프를 단계별로 만들 수 있습니다.";$("rows").textContent=`0 / ${state.steps.length} data rows`;}
-    function buildSteps(){const configs=[["A","double",funcs.sin,1,["forward"]],["B","float",funcs.sin,1,["forward"]],["B","double",funcs.sin,1,["forward"]],["B","long_double_js_approx",funcs.sin,1,["forward"]],["C","double",funcs.sin,1,["forward","central"]],["D","double",funcs.x2,1,["forward"]],["D","double",funcs.sin,1,["forward"]],["D","double",funcs.exp,1,["forward"]],["D","double",funcs.log,1,["forward"]],["D","double",funcs.x2,100,["forward"]],["D","double",funcs.x2,1000000,["forward"]]],steps=[];for(let exp=H_MAX_EXP;exp>=H_MIN_EXP;exp--){configs.forEach(([experiment,type,fn,xValue,methods])=>{methods.forEach(method=>steps.push({experiment,type,fn,xValue,method,hExp:exp}));});}return steps;}
-    function computeBatch(count){if(!state.steps.length)state.steps=buildSteps();if(state.cursor>=state.steps.length){$("status").textContent="이미 모든 계산이 완료되었습니다.";updateControls();return;}const start=state.cursor;while(state.cursor<state.steps.length&&state.cursor-start<count){state.data.push(computeStep(state.steps[state.cursor]));state.cursor++;}state.summary=summarize(state.data);renderSummary(state.summary);renderAnalysis(state.data,state.summary);updateControls();const added=state.cursor-start;$("status").textContent=state.cursor>=state.steps.length?"전체 계산 완료":`${added}개 계산 완료. 10회 계산을 더 누르면 다음 값들이 추가됩니다.`;$("rows").textContent=`${state.cursor} / ${state.steps.length} data rows, ${state.summary.length} summary rows`;}
-    function computeStep(step){const precision=typeInfo.find(t=>t.type===step.type)?.precision??17,x=cast(step.type,step.xValue),h=cast(step.type,Math.pow(10,step.hExp)),xp=cast(step.type,x+h),xm=cast(step.type,x-h),truth=cast(step.type,step.fn[2](x)),eqPlus=Number(xp===x),eqMinus=Number(xm===x);if(step.method==="central"){const numerical=cast(step.type,(f(step.type,step.fn,x+h)-f(step.type,step.fn,x-h))/cast(step.type,2*h)),error=Math.abs(numerical-truth);return dataRow(step.experiment,step.type,step.fn[0],"central",x,step.xValue,h,step.hExp,numerical,truth,error,eqPlus,eqMinus,precision);}const numerical=cast(step.type,(f(step.type,step.fn,x+h)-f(step.type,step.fn,x))/h),error=Math.abs(numerical-truth);return dataRow(step.experiment,step.type,step.fn[0],"forward",x,step.xValue,h,step.hExp,numerical,truth,error,eqPlus,"NA",precision);}
-    function updateControls(){const hasData=state.data.length>0,done=state.cursor>=state.steps.length;$("step").disabled=done;$("run").disabled=done;$("data").disabled=!hasData;$("summary").disabled=!state.summary.length;}
-    function renderEmpty(){$("hint").textContent="10회 계산 또는 총 계산 후 표가 표시됩니다.";$("body").innerHTML=`<tr><td colspan="7" class="empty">10회 계산 또는 총 계산 버튼을 누르세요.</td></tr>`;$("analysisHint").textContent="계산이 누적될수록 그래프와 표가 실시간으로 갱신됩니다.";["methodChart","typeChart","functionCurveChart"].forEach(id=>$(id).innerHTML="<p class='muted'>아직 계산된 데이터가 없습니다.</p>");$("precisionBody").innerHTML=`<tr><td colspan="6" class="empty">계산 후 표가 표시됩니다.</td></tr>`;$("ratioBody").innerHTML=`<tr><td colspan="5" class="empty">계산 후 표가 표시됩니다.</td></tr>`;$("answers").innerHTML=`<div class="answer"><h3>진행 방식</h3><p>10회 계산 버튼을 누를 때마다 h 순서대로 10개의 데이터가 추가되고, 그래프 선과 분석 표가 누적 데이터 기준으로 다시 그려집니다.</p></div>`;}
-    function summarize(data){const bestRows=new Map();data.forEach(row=>{const key=[row.experiment,row.type,row.function,row.xLabel,row.method].join("|");if(!bestRows.has(key)||row.errv<bestRows.get(key).errv)bestRows.set(key,row);});return Array.from(bestRows.values()).map(row=>{const precision=typeInfo.find(t=>t.type===row.type)?.precision??17;return summaryRow(row.experiment,row.type,row.function,row.xLabel,row.method,row.hv,row.errv,precision);});}
-    function cast(type,value){return type==="float"?Math.fround(value):Number(value)}function f(type,fn,x){return cast(type,fn[1](cast(type,x)))}function fmt(value,precision){return Number.isFinite(value)?value.toExponential(precision):String(value)}
-    function dataRow(experiment,type,fn,method,x,xValue,h,hExp,numerical,truth,error,eqPlus,eqMinus,precision){return{experiment,type,function:fn,method,x:fmt(x,precision),xv:x,xLabel:String(xValue),h:fmt(h,precision),hv:h,hExp,numerical_derivative:fmt(numerical,precision),true_derivative:fmt(truth,precision),absolute_error:fmt(error,precision),errv:error,x_plus_h_equal_x:String(eqPlus),x_minus_h_equal_x:String(eqMinus)}}
-    function summaryRow(experiment,type,fn,xValue,method,h,error,precision){return{experiment,type,function:fn,x:String(xValue),method,h_at_min_error:fmt(h,precision),hmin:h,min_absolute_error:fmt(error,precision),errmin:error}}
-    function renderSummary(rows){$("hint").textContent="각 조건별 최소 오차와 해당 h입니다. h 범위는 10^-1부터 10^-18까지입니다.";$("body").innerHTML=rows.map(row=>`<tr>${summaryHeaders().map(key=>`<td>${esc(row[key])}</td>`).join("")}</tr>`).join("");}
-    function renderAnalysis(data,summary){$("analysisHint").textContent=`h 범위 10^-1~10^-18에서 ${data.length}개 데이터가 누적된 상태입니다.`;lineChart("methodChart",series(data.filter(row=>row.experiment==="C"&&row.type==="double"&&row.function==="sin(x)"),"method"),"log10(h)","log10(abs error)");lineChart("typeChart",series(data.filter(row=>row.experiment==="B"&&row.function==="sin(x)"&&row.method==="forward"),"type"),"log10(h)","log10(abs error)");lineChart("functionCurveChart",functionSeries(data),"log10(h)","log10(abs error)");renderPrecisionTable(summary,data);renderRatioTable(data);answers(summary,data);}
-    function series(rows,key){return Object.values(rows.reduce((map,row)=>{const name=row[key];(map[name]||(map[name]={name,values:[]})).values.push(point(row));return map;},{})).map(item=>({...item,values:item.values.sort((a,b)=>a.x-b.x)}));}
-    function functionSeries(data){const specs=[{fn:"x^2",x:1,name:"x^2, x=1"},{fn:"x^2",x:1000000,name:"x^2, x=10^6"},{fn:"sin(x)",x:1,name:"sin(x), x=1"},{fn:"exp(x)",x:1,name:"exp(x), x=1"}];return specs.map(spec=>({name:spec.name,values:data.filter(row=>row.experiment==="D"&&row.type==="double"&&row.method==="forward"&&row.function===spec.fn&&row.xv===spec.x).map(point).sort((a,b)=>a.x-b.x)}));}
+
+    document.querySelectorAll(".tab").forEach(button=>{
+      button.onclick=()=>{
+        document.querySelectorAll(".tab").forEach(tab=>tab.setAttribute("aria-selected",String(tab===button)));
+        document.querySelectorAll(".tab-panel").forEach(panel=>panel.classList.toggle("active",panel.id===button.dataset.tab));
+      };
+    });
+
+    $("step").onclick=()=>computeBatch(10);
+    $("run").onclick=()=>computeBatch(Infinity);
+    $("reset").onclick=()=>resetState();
+    $("interpretationToggle").onchange=()=>setInterpretationVisibility();
+    $("data").onclick=()=>download("numeric_diff_data.csv",csv(dataHeaders(),state.data));
+    $("summary").onclick=()=>download("numeric_diff_summary.csv",csv(summaryHeaders(),state.summary));
+    resetState();
+
+    function resetState(){
+      state.data=[];
+      state.summary=[];
+      state.steps=buildSteps();
+      state.cursor=0;
+      renderEmpty();
+      updateControls();
+      $("status").textContent="초기화 완료. 10회 계산으로 그래프를 단계별로 만들 수 있습니다.";
+      $("rows").textContent=`0 / ${state.steps.length} data rows`;
+    }
+
+    function buildSteps(){
+      const configs=[
+        ["A","double",funcs.sin,1,["forward"]],
+        ["B","float",funcs.sin,1,["forward"]],
+        ["B","double",funcs.sin,1,["forward"]],
+        ["B","long_double_js_approx",funcs.sin,1,["forward"]],
+        ["C","double",funcs.sin,1,["forward","central"]],
+        ["D","double",funcs.x2,1,["forward"]],
+        ["D","double",funcs.sin,1,["forward"]],
+        ["D","double",funcs.exp,1,["forward"]],
+        ["D","double",funcs.log,1,["forward"]],
+        ["D","double",funcs.x2,100,["forward"]],
+        ["D","double",funcs.x2,1000000,["forward"]]
+      ];
+      const steps=[];
+      for(let exp=H_MAX_EXP;exp>=H_MIN_EXP;exp--){
+        configs.forEach(([experiment,type,fn,xValue,methods])=>{
+          methods.forEach(method=>steps.push({experiment,type,fn,xValue,method,hExp:exp}));
+        });
+      }
+      return steps;
+    }
+
+    function computeBatch(count){
+      if(!state.steps.length)state.steps=buildSteps();
+      if(state.cursor>=state.steps.length){
+        $("status").textContent="이미 모든 계산이 완료되었습니다.";
+        updateControls();
+        return;
+      }
+      const start=state.cursor;
+      while(state.cursor<state.steps.length&&state.cursor-start<count){
+        state.data.push(computeStep(state.steps[state.cursor]));
+        state.cursor++;
+      }
+      state.summary=summarize(state.data);
+      renderSummary(state.summary);
+      renderAnalysis(state.data,state.summary);
+      updateControls();
+      const added=state.cursor-start;
+      $("status").textContent=state.cursor>=state.steps.length?"전체 계산 완료":`${added}개 계산 완료. 10회 계산을 더 누르면 다음 값들이 추가됩니다.`;
+      $("rows").textContent=`${state.cursor} / ${state.steps.length} data rows, ${state.summary.length} summary rows`;
+    }
+
+    function computeStep(step){
+      const precision=typeInfo.find(t=>t.type===step.type)?.precision??17;
+      const x=cast(step.type,step.xValue);
+      const h=cast(step.type,Math.pow(10,step.hExp));
+      const xp=cast(step.type,x+h);
+      const xm=cast(step.type,x-h);
+      const truth=cast(step.type,step.fn[2](x));
+      const eqPlus=Number(xp===x);
+      const eqMinus=Number(xm===x);
+      if(step.method==="central"){
+        const numerical=cast(step.type,(f(step.type,step.fn,x+h)-f(step.type,step.fn,x-h))/cast(step.type,2*h));
+        const error=Math.abs(numerical-truth);
+        return dataRow(step.experiment,step.type,step.fn[0],"central",x,step.xValue,h,step.hExp,numerical,truth,error,eqPlus,eqMinus,precision);
+      }
+      const numerical=cast(step.type,(f(step.type,step.fn,x+h)-f(step.type,step.fn,x))/h);
+      const error=Math.abs(numerical-truth);
+      return dataRow(step.experiment,step.type,step.fn[0],"forward",x,step.xValue,h,step.hExp,numerical,truth,error,eqPlus,"NA",precision);
+    }
+
+    function updateControls(){
+      const hasData=state.data.length>0;
+      const done=state.cursor>=state.steps.length;
+      $("step").disabled=done;
+      $("run").disabled=done;
+      $("data").disabled=!hasData;
+      $("summary").disabled=!state.summary.length;
+    }
+
+    function renderEmpty(){
+      $("hint").textContent="10회 계산 또는 총 계산 후 표가 표시됩니다.";
+      $("body").innerHTML=`<tr><td colspan="7" class="empty">10회 계산 또는 총 계산 버튼을 누르세요.</td></tr>`;
+      $("analysisHint").textContent="계산이 누적될수록 그래프와 표가 실시간으로 갱신됩니다.";
+      ["methodChart","typeChart","functionCurveChart"].forEach(id=>$(id).innerHTML="<p class='muted'>아직 계산된 데이터가 없습니다.</p>");
+      $("precisionBody").innerHTML=`<tr><td colspan="6" class="empty">계산 후 표가 표시됩니다.</td></tr>`;
+      $("ratioBody").innerHTML=`<tr><td colspan="5" class="empty">계산 후 표가 표시됩니다.</td></tr>`;
+      $("answers").innerHTML=`<div class="answer"><h3>진행 방식</h3><p>10회 계산 버튼을 누를 때마다 h 순서대로 10개의 데이터가 추가되고, 그래프 선과 분석 표가 누적 데이터 기준으로 다시 그려집니다.</p></div>`;
+      setInterpretationVisibility();
+    }
+
+    function setInterpretationVisibility(){
+      $("answers").hidden=!$("interpretationToggle").checked;
+    }
+
+    function summarize(data){
+      const bestRows=new Map();
+      data.forEach(row=>{
+        const key=[row.experiment,row.type,row.function,row.xLabel,row.method].join("|");
+        if(!bestRows.has(key)||row.errv<bestRows.get(key).errv)bestRows.set(key,row);
+      });
+      return Array.from(bestRows.values()).map(row=>{
+        const precision=typeInfo.find(t=>t.type===row.type)?.precision??17;
+        return summaryRow(row.experiment,row.type,row.function,row.xLabel,row.method,row.hv,row.errv,precision);
+      });
+    }
+
+    function cast(type,value){return type==="float"?Math.fround(value):Number(value)}
+    function f(type,fn,x){return cast(type,fn[1](cast(type,x)))}
+    function fmt(value,precision){return Number.isFinite(value)?value.toExponential(precision):String(value)}
+    function dataRow(experiment,type,fn,method,x,xValue,h,hExp,numerical,truth,error,eqPlus,eqMinus,precision){
+      return{experiment,type,function:fn,method,x:fmt(x,precision),xv:x,xLabel:String(xValue),h:fmt(h,precision),hv:h,hExp,numerical_derivative:fmt(numerical,precision),true_derivative:fmt(truth,precision),absolute_error:fmt(error,precision),errv:error,x_plus_h_equal_x:String(eqPlus),x_minus_h_equal_x:String(eqMinus)};
+    }
+
+    function summaryRow(experiment,type,fn,xValue,method,h,error,precision){
+      return{experiment,type,function:fn,x:String(xValue),method,h_at_min_error:fmt(h,precision),hmin:h,min_absolute_error:fmt(error,precision),errmin:error};
+    }
+
+    function renderSummary(rows){
+      $("hint").textContent="각 조건별 최소 오차와 해당 h입니다. h 범위는 10^-1부터 10^-18까지입니다.";
+      $("body").innerHTML=rows.map(row=>`<tr>${summaryHeaders().map(key=>`<td>${esc(row[key])}</td>`).join("")}</tr>`).join("");
+    }
+
+    function renderAnalysis(data,summary){
+      $("analysisHint").textContent=`h 범위 10^-1~10^-18에서 ${data.length}개 데이터가 누적된 상태입니다.`;
+      lineChart("methodChart",series(data.filter(row=>row.experiment==="C"&&row.type==="double"&&row.function==="sin(x)"),"method"),"log10(h)","log10(abs error)");
+      lineChart("typeChart",series(data.filter(row=>row.experiment==="B"&&row.function==="sin(x)"&&row.method==="forward"),"type"),"log10(h)","log10(abs error)");
+      lineChart("functionCurveChart",functionSeries(data),"log10(h)","log10(abs error)");
+      renderPrecisionTable(summary,data);
+      renderRatioTable(data);
+      answers(summary,data);
+    }
+
+    function series(rows,key){
+      return Object.values(rows.reduce((map,row)=>{
+        const name=row[key];
+        (map[name]||(map[name]={name,values:[]})).values.push(point(row));
+        return map;
+      },{})).map(item=>({...item,values:item.values.sort((a,b)=>a.x-b.x)}));
+    }
+
+    function functionSeries(data){
+      const specs=[
+        {fn:"x^2",x:1,name:"x^2, x=1"},
+        {fn:"x^2",x:1000000,name:"x^2, x=10^6"},
+        {fn:"sin(x)",x:1,name:"sin(x), x=1"},
+        {fn:"exp(x)",x:1,name:"exp(x), x=1"}
+      ];
+      return specs.map(spec=>({
+        name:spec.name,
+        values:data.filter(row=>row.experiment==="D"&&row.type==="double"&&row.method==="forward"&&row.function===spec.fn&&row.xv===spec.x).map(point).sort((a,b)=>a.x-b.x)
+      }));
+    }
+
     function point(row){return{x:row.hExp,y:Math.log10(Math.max(row.errv,1e-323)),raw:row}}
-    function lineChart(id,seriesList,xLabel,yLabel){const element=$(id),width=820,height=300,margin={left:66,right:18,top:18,bottom:48},all=seriesList.flatMap(item=>item.values);if(!all.length){element.innerHTML="<p class='muted'>데이터가 없습니다.</p>";return}const xDomain=[H_MIN_EXP,H_MAX_EXP],yDomain=extent(all.map(item=>item.y)),sx=x=>margin.left+(x-xDomain[0])/(xDomain[1]-xDomain[0])*(width-margin.left-margin.right),sy=y=>height-margin.bottom-(y-yDomain[0])/(yDomain[1]-yDomain[0])*(height-margin.top-margin.bottom),xTicks=[-18,-15,-12,-9,-6,-3,-1],yTicks=ticks(yDomain);let svg=`<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${xLabel} and ${yLabel} chart"><rect x="${margin.left}" y="${margin.top}" width="${width-margin.left-margin.right}" height="${height-margin.top-margin.bottom}" fill="white" stroke="#d7ddda"/>`;yTicks.forEach(tick=>{svg+=`<line class="gridline" x1="${margin.left}" x2="${width-margin.right}" y1="${sy(tick)}" y2="${sy(tick)}"/><text x="${margin.left-8}" y="${sy(tick)+4}" text-anchor="end" font-size="11">${tick.toFixed(0)}</text>`});xTicks.forEach(tick=>{svg+=`<text x="${sx(tick)}" y="${height-24}" text-anchor="middle" font-size="11">10^${tick}</text>`});svg+=`<text x="${width/2}" y="${height-6}" text-anchor="middle" font-size="12">${xLabel}</text><text transform="translate(14 ${height/2}) rotate(-90)" text-anchor="middle" font-size="12">${yLabel}</text>`;seriesList.forEach((item,index)=>{if(!item.values.length)return;const color=colors[index%colors.length],path=item.values.map((value,pathIndex)=>(pathIndex?"L":"M")+sx(value.x).toFixed(1)+" "+sy(value.y).toFixed(1)).join(" ");svg+=`<path class="series" d="${path}" stroke="${color}"/>`;const min=item.values.reduce((a,b)=>b.y<a.y?b:a,item.values[0]);svg+=`<circle class="dot" cx="${sx(min.x)}" cy="${sy(min.y)}" r="4" fill="${color}"><title>${item.name}: min error at h=${min.raw.h}</title></circle>`});svg+="</svg><div class='legend'>"+seriesList.map((item,index)=>`<span><i class='swatch' style='background:${colors[index%colors.length]}'></i>${esc(item.name)}</span>`).join("")+"</div>";element.innerHTML=svg;}
-    function renderPrecisionTable(summary,data){const rows=typeInfo.map(info=>{const bestRow=summary.find(row=>row.experiment==="B"&&row.type===info.type&&row.method==="forward"),eqRow=data.find(row=>row.experiment==="B"&&row.type===info.type&&row.method==="forward"&&row.x_plus_h_equal_x==="1");return{type:info.label,epsilon:fmt(info.epsilon,6),optimal:bestRow?.h_at_min_error??"not found",minError:bestRow?.min_absolute_error??"not found",equalH:eqRow?.h??"not in 10^-1~10^-18",note:info.note};});$("precisionBody").innerHTML=rows.map(row=>`<tr><td>${esc(row.type)}</td><td>${esc(row.epsilon)}</td><td>${esc(row.optimal)}</td><td>${esc(row.minError)}</td><td>${esc(row.equalH)}</td><td>${esc(row.note)}</td></tr>`).join("");}
-    function renderRatioTable(data){const forward=byH(data.filter(row=>row.experiment==="C"&&row.method==="forward")),central=byH(data.filter(row=>row.experiment==="C"&&row.method==="central")),rows=[];for(let exp=H_MAX_EXP;exp>H_MIN_EXP;exp--){const fromF=forward.get(exp),toF=forward.get(exp-1),fromC=central.get(exp),toC=central.get(exp-1),forwardRatio=ratio(fromF,toF),centralRatio=ratio(fromC,toC);rows.push({range:`10^${exp} -> 10^${exp-1}`,forward:forwardRatio,forwardCheck:checkRatio(forwardRatio,10),central:centralRatio,centralCheck:checkRatio(centralRatio,100)});}$("ratioBody").innerHTML=rows.map(row=>`<tr><td>${row.range}</td><td>${ratioText(row.forward)}</td><td>${row.forwardCheck}</td><td>${ratioText(row.central)}</td><td>${row.centralCheck}</td></tr>`).join("");}
-    function byH(rows){return new Map(rows.map(row=>[row.hExp,row]))}function ratio(fromRow,toRow){return fromRow&&toRow&&toRow.errv!==0?fromRow.errv/toRow.errv:NaN}function ratioText(value){return Number.isFinite(value)?value.toExponential(3):"N/A"}function checkRatio(value,target){if(!Number.isFinite(value))return "계산 불가";const rel=Math.abs(value-target)/target;if(rel<=0.25)return `${target}에 가까움`;if(value<1)return "오차 증가";return "반올림 영향";}
-    function answers(summary,data){const c=summary.filter(row=>row.experiment==="C"),forward=c.find(row=>row.method==="forward"),central=c.find(row=>row.method==="central"),aRows=data.filter(row=>row.experiment==="A"),aMin=aRows.length?aRows.reduce((x,y)=>y.errv<x.errv?y:x,aRows[0]):null,aLast=aRows[aRows.length-1],doubleEq=data.find(row=>row.experiment==="B"&&row.type==="double"&&row.x_plus_h_equal_x==="1"),x2Small=summary.find(row=>row.experiment==="D"&&row.function==="x^2"&&row.x==="1"),x2Large=summary.find(row=>row.experiment==="D"&&row.function==="x^2"&&row.x==="1000000"),x2SmallEq=data.find(row=>row.experiment==="D"&&row.function==="x^2"&&row.xv===1&&row.x_plus_h_equal_x==="1"),x2LargeEq=data.find(row=>row.experiment==="D"&&row.function==="x^2"&&row.xv===1000000&&row.x_plus_h_equal_x==="1"),earlyRatios=earlyRatioSummary(data),minRatio=forward&&central?forward.errmin/central.errmin:NaN;if(!data.length){renderEmpty();return;}$("answers").innerHTML=[["누적 계산 상태",`현재 ${state.cursor}/${state.steps.length}개 데이터가 계산되었습니다. h=10^-1부터 10^-18까지 순서대로 진행되므로, 10회 계산을 반복하면 그래프 선이 단계적으로 길어집니다.`],["h 범위 축소 결과",aMin?`이번 분석은 h=10^-1부터 10^-18까지만 사용합니다. 현재 A 실험의 최소 오차는 h=${aMin.h} 근처이고, 현재 마지막 A 데이터의 오차는 ${aLast.absolute_error}입니다.`:"A 실험 데이터가 아직 충분히 계산되지 않았습니다."],["자료형별 한계",`float, double, long double 표에서 epsilon이 작을수록 더 작은 h까지 버틸 수 있습니다. 다만 웹 long double은 계산 자체가 double 근사라 x+h=x 시점은 double과 거의 같습니다. double에서는 ${doubleEq?.h??"범위 밖"} 부근부터 x+h가 x와 같게 표현됩니다.`],["감소비 확인",`초기 구간의 평균 감소비는 전진차분 ${earlyRatios.forward}, 중심차분 ${earlyRatios.central}입니다. 전진차분은 이론상 10, 중심차분은 이론상 100에 가까워야 하며, 작은 h 영역에서는 반올림 오차 때문에 이 관계가 깨집니다.`],["전진차분과 중심차분",`C 실험에서 전진차분 최소 오차는 ${forward?.min_absolute_error}, 중심차분 최소 오차는 ${central?.min_absolute_error}입니다. 이 실행에서는 중심차분이 약 ${Number.isFinite(minRatio)?minRatio.toExponential(2):"N/A"}배 더 작은 최소 오차를 보였습니다.`],["x^2에서 x=1과 x=10^6의 차이",`x^2의 전진차분은 수학적으로 2x+h라 절단오차만 보면 h 수준입니다. 그러나 x=10^6에서는 f(x)가 10^12 규모라 f(x+h)-f(x)에서 큰 수끼리 빼는 손실이 커집니다. 또한 x+h=x 발생 h가 x=1에서는 ${x2SmallEq?.h??"범위 밖"}인 반면 x=10^6에서는 ${x2LargeEq?.h??"범위 밖"}로 훨씬 빨라집니다. 최소오차도 x=1은 ${x2Small?.min_absolute_error}, x=10^6은 ${x2Large?.min_absolute_error}로 다르게 나타납니다.`]].map(([question,answer])=>`<div class="answer"><h3>${esc(question)}</h3><p>${esc(answer)}</p></div>`).join("");}
-    function earlyRatioSummary(data){const forward=byH(data.filter(row=>row.experiment==="C"&&row.method==="forward")),central=byH(data.filter(row=>row.experiment==="C"&&row.method==="central")),forwardVals=[],centralVals=[];for(let exp=-1;exp>=-4;exp--){forwardVals.push(ratio(forward.get(exp),forward.get(exp-1)));centralVals.push(ratio(central.get(exp),central.get(exp-1)));}return{forward:mean(forwardVals).toExponential(3),central:mean(centralVals).toExponential(3)};}
-    function mean(values){const clean=values.filter(Number.isFinite);return clean.reduce((sum,value)=>sum+value,0)/clean.length;}function extent(values){let min=Math.min(...values),max=Math.max(...values);if(min===max){min-=1;max+=1}const pad=(max-min)*0.08;return[min-pad,max+pad];}function ticks(domain){const start=Math.ceil(domain[0]),end=Math.floor(domain[1]),step=Math.max(1,Math.ceil((end-start)/5)),out=[];for(let value=start;value<=end;value+=step)out.push(value);return out.slice(0,6);}
-    function dataHeaders(){return["experiment","type","function","method","x","h","numerical_derivative","true_derivative","absolute_error","x_plus_h_equal_x","x_minus_h_equal_x"]}function summaryHeaders(){return["experiment","type","function","x","method","h_at_min_error","min_absolute_error"]}function csv(headers,rows){return[headers.join(","),...rows.map(row=>headers.map(key=>cell(row[key])).join(","))].join("\n")+"\n"}function cell(value){const text=String(value);return/[,"\n]/.test(text)?`"${text.replaceAll('"','""')}"`:text}
-    function download(name,text){const url=URL.createObjectURL(new Blob([text],{type:"text/csv;charset=utf-8"}));const anchor=document.createElement("a");anchor.href=url;anchor.download=name;document.body.appendChild(anchor);anchor.click();anchor.remove();URL.revokeObjectURL(url);}function esc(value){return String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
+
+    function lineChart(id,seriesList,xLabel,yLabel){
+      const element=$(id),width=820,height=300,margin={left:66,right:18,top:18,bottom:48};
+      const all=seriesList.flatMap(item=>item.values);
+      if(!all.length){element.innerHTML="<p class='muted'>데이터가 없습니다.</p>";return}
+      const xDomain=[H_MIN_EXP,H_MAX_EXP];
+      const yDomain=extent(all.map(item=>item.y));
+      const sx=x=>margin.left+(x-xDomain[0])/(xDomain[1]-xDomain[0])*(width-margin.left-margin.right);
+      const sy=y=>height-margin.bottom-(y-yDomain[0])/(yDomain[1]-yDomain[0])*(height-margin.top-margin.bottom);
+      const xTicks=[-18,-15,-12,-9,-6,-3,-1];
+      const yTicks=ticks(yDomain);
+      let svg=`<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${xLabel} and ${yLabel} chart"><rect x="${margin.left}" y="${margin.top}" width="${width-margin.left-margin.right}" height="${height-margin.top-margin.bottom}" fill="white" stroke="#d7ddda"/>`;
+      yTicks.forEach(tick=>{
+        svg+=`<line class="gridline" x1="${margin.left}" x2="${width-margin.right}" y1="${sy(tick)}" y2="${sy(tick)}"/><text x="${margin.left-8}" y="${sy(tick)+4}" text-anchor="end" font-size="11">${tick.toFixed(0)}</text>`;
+      });
+      xTicks.forEach(tick=>{
+        svg+=`<text x="${sx(tick)}" y="${height-24}" text-anchor="middle" font-size="11">10^${tick}</text>`;
+      });
+      svg+=`<text x="${width/2}" y="${height-6}" text-anchor="middle" font-size="12">${xLabel}</text><text transform="translate(14 ${height/2}) rotate(-90)" text-anchor="middle" font-size="12">${yLabel}</text>`;
+      seriesList.forEach((item,index)=>{
+        if(!item.values.length)return;
+        const color=colors[index%colors.length];
+        const path=item.values.map((value,pathIndex)=>(pathIndex?"L":"M")+sx(value.x).toFixed(1)+" "+sy(value.y).toFixed(1)).join(" ");
+        svg+=`<path class="series" d="${path}" stroke="${color}"/>`;
+        const min=item.values.reduce((a,b)=>b.y<a.y?b:a,item.values[0]);
+        svg+=`<circle class="dot" cx="${sx(min.x)}" cy="${sy(min.y)}" r="4" fill="${color}"><title>${item.name}: min error at h=${min.raw.h}</title></circle>`;
+      });
+      svg+="</svg><div class='legend'>"+seriesList.map((item,index)=>`<span><i class='swatch' style='background:${colors[index%colors.length]}'></i>${esc(item.name)}</span>`).join("")+"</div>";
+      element.innerHTML=svg;
+    }
+
+    function renderPrecisionTable(summary,data){
+      const rows=typeInfo.map(info=>{
+        const bestRow=summary.find(row=>row.experiment==="B"&&row.type===info.type&&row.method==="forward");
+        const eqRow=data.find(row=>row.experiment==="B"&&row.type===info.type&&row.method==="forward"&&row.x_plus_h_equal_x==="1");
+        return{type:info.label,epsilon:fmt(info.epsilon,6),optimal:bestRow?.h_at_min_error??"not found",minError:bestRow?.min_absolute_error??"not found",equalH:eqRow?.h??"not in 10^-1~10^-18",note:info.note};
+      });
+      $("precisionBody").innerHTML=rows.map(row=>`<tr><td>${esc(row.type)}</td><td>${esc(row.epsilon)}</td><td>${esc(row.optimal)}</td><td>${esc(row.minError)}</td><td>${esc(row.equalH)}</td><td>${esc(row.note)}</td></tr>`).join("");
+    }
+
+    function renderRatioTable(data){
+      const forward=byH(data.filter(row=>row.experiment==="C"&&row.method==="forward"));
+      const central=byH(data.filter(row=>row.experiment==="C"&&row.method==="central"));
+      const rows=[];
+      for(let exp=H_MAX_EXP;exp>H_MIN_EXP;exp--){
+        const fromF=forward.get(exp),toF=forward.get(exp-1),fromC=central.get(exp),toC=central.get(exp-1);
+        const forwardRatio=ratio(fromF,toF),centralRatio=ratio(fromC,toC);
+        rows.push({range:`10^${exp} -> 10^${exp-1}`,forward:forwardRatio,forwardCheck:checkRatio(forwardRatio,10),central:centralRatio,centralCheck:checkRatio(centralRatio,100)});
+      }
+      $("ratioBody").innerHTML=rows.map(row=>`<tr><td>${row.range}</td><td>${ratioText(row.forward)}</td><td>${row.forwardCheck}</td><td>${ratioText(row.central)}</td><td>${row.centralCheck}</td></tr>`).join("");
+    }
+
+    function byH(rows){return new Map(rows.map(row=>[row.hExp,row]))}
+    function ratio(fromRow,toRow){return fromRow&&toRow&&toRow.errv!==0?fromRow.errv/toRow.errv:NaN}
+    function ratioText(value){return Number.isFinite(value)?value.toExponential(3):"N/A"}
+    function checkRatio(value,target){
+      if(!Number.isFinite(value))return "계산 불가";
+      const rel=Math.abs(value-target)/target;
+      if(rel<=0.25)return `${target}에 가까움`;
+      if(value<1)return "오차 증가";
+      return "반올림 영향";
+    }
+
+    function answers(summary,data){
+      const c=summary.filter(row=>row.experiment==="C");
+      const forward=c.find(row=>row.method==="forward");
+      const central=c.find(row=>row.method==="central");
+      const aRows=data.filter(row=>row.experiment==="A");
+      const aMin=aRows.length?aRows.reduce((x,y)=>y.errv<x.errv?y:x,aRows[0]):null;
+      const aLast=aRows[aRows.length-1];
+      const doubleEq=data.find(row=>row.experiment==="B"&&row.type==="double"&&row.x_plus_h_equal_x==="1");
+      const x2Small=summary.find(row=>row.experiment==="D"&&row.function==="x^2"&&row.x==="1");
+      const x2Large=summary.find(row=>row.experiment==="D"&&row.function==="x^2"&&row.x==="1000000");
+      const x2SmallEq=data.find(row=>row.experiment==="D"&&row.function==="x^2"&&row.xv===1&&row.x_plus_h_equal_x==="1");
+      const x2LargeEq=data.find(row=>row.experiment==="D"&&row.function==="x^2"&&row.xv===1000000&&row.x_plus_h_equal_x==="1");
+      const earlyRatios=earlyRatioSummary(data);
+      const ratio=forward&&central?forward.errmin/central.errmin:NaN;
+      if(!data.length){
+        renderEmpty();
+        return;
+      }
+      $("answers").innerHTML=[
+        ["누적 계산 상태",`현재 ${state.cursor}/${state.steps.length}개 데이터가 계산되었습니다. h=10^-1부터 10^-18까지 순서대로 진행되므로, 10회 계산을 반복하면 그래프 선이 단계적으로 길어집니다.`],
+        ["h 범위 축소 결과",aMin?`이번 분석은 h=10^-1부터 10^-18까지만 사용합니다. 현재 A 실험의 최소 오차는 h=${aMin.h} 근처이고, 현재 마지막 A 데이터의 오차는 ${aLast.absolute_error}입니다.`:"A 실험 데이터가 아직 충분히 계산되지 않았습니다."],
+        ["자료형별 한계",`float, double, long double 표에서 epsilon이 작을수록 더 작은 h까지 버틸 수 있습니다. 다만 웹 long double은 계산 자체가 double 근사라 x+h=x 시점은 double과 거의 같습니다. double에서는 ${doubleEq?.h??"범위 밖"} 부근부터 x+h가 x와 같게 표현됩니다.`],
+        ["감소비 확인",`초기 구간의 평균 감소비는 전진차분 ${earlyRatios.forward}, 중심차분 ${earlyRatios.central}입니다. 전진차분은 이론상 10, 중심차분은 이론상 100에 가까워야 하며, 작은 h 영역에서는 반올림 오차 때문에 이 관계가 깨집니다.`],
+        ["전진차분과 중심차분",`C 실험에서 전진차분 최소 오차는 ${forward?.min_absolute_error}, 중심차분 최소 오차는 ${central?.min_absolute_error}입니다. 이 실행에서는 중심차분이 약 ${Number.isFinite(ratio)?ratio.toExponential(2):"N/A"}배 더 작은 최소 오차를 보였습니다.`],
+        ["x^2에서 x=1과 x=10^6의 차이",`x^2의 전진차분은 수학적으로 2x+h라 절단오차만 보면 h 수준입니다. 그러나 x=10^6에서는 f(x)가 10^12 규모라 f(x+h)-f(x)에서 큰 수끼리 빼는 손실이 커집니다. 또한 x+h=x 발생 h가 x=1에서는 ${x2SmallEq?.h??"범위 밖"}인 반면 x=10^6에서는 ${x2LargeEq?.h??"범위 밖"}로 훨씬 빨라집니다. 최소오차도 x=1은 ${x2Small?.min_absolute_error}, x=10^6은 ${x2Large?.min_absolute_error}로 다르게 나타납니다.`]
+      ].map(([question,answer])=>`<div class="answer"><h3>${esc(question)}</h3><p>${esc(answer)}</p></div>`).join("");
+      setInterpretationVisibility();
+    }
+
+    function earlyRatioSummary(data){
+      const forward=byH(data.filter(row=>row.experiment==="C"&&row.method==="forward"));
+      const central=byH(data.filter(row=>row.experiment==="C"&&row.method==="central"));
+      const forwardVals=[],centralVals=[];
+      for(let exp=-1;exp>=-4;exp--){
+        forwardVals.push(ratio(forward.get(exp),forward.get(exp-1)));
+        centralVals.push(ratio(central.get(exp),central.get(exp-1)));
+      }
+      return{forward:mean(forwardVals).toExponential(3),central:mean(centralVals).toExponential(3)};
+    }
+
+    function mean(values){
+      const clean=values.filter(Number.isFinite);
+      return clean.reduce((sum,value)=>sum+value,0)/clean.length;
+    }
+
+    function extent(values){
+      let min=Math.min(...values),max=Math.max(...values);
+      if(min===max){min-=1;max+=1}
+      const pad=(max-min)*0.08;
+      return[min-pad,max+pad];
+    }
+
+    function ticks(domain){
+      const start=Math.ceil(domain[0]),end=Math.floor(domain[1]),step=Math.max(1,Math.ceil((end-start)/5)),out=[];
+      for(let value=start;value<=end;value+=step)out.push(value);
+      return out.slice(0,6);
+    }
+
+    function dataHeaders(){return["experiment","type","function","method","x","h","numerical_derivative","true_derivative","absolute_error","x_plus_h_equal_x","x_minus_h_equal_x"]}
+    function summaryHeaders(){return["experiment","type","function","x","method","h_at_min_error","min_absolute_error"]}
+    function csv(headers,rows){return[headers.join(","),...rows.map(row=>headers.map(key=>cell(row[key])).join(","))].join("\n")+"\n"}
+    function cell(value){const text=String(value);return/[,"\n]/.test(text)?`"${text.replaceAll('"','""')}"`:text}
+    function download(name,text){
+      const url=URL.createObjectURL(new Blob([text],{type:"text/csv;charset=utf-8"}));
+      const anchor=document.createElement("a");
+      anchor.href=url;
+      anchor.download=name;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+    }
+    function esc(value){return String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
   </script>
 </body>
 </html>
